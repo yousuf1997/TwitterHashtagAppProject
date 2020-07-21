@@ -6,3 +6,6 @@
  
 ## Phase I (Design)
  <img src="https://github.com/yousuf1997/TwitterHashtagAppProject/blob/master/Phase1.PNG" width="200" height="350">
+ 
+## Phase I (Remodeled the UI)
+ <img src="https://github.com/yousuf1997/TwitterHashtagAppProject/blob/master/Phase1-redesign.PNG" width="200" height="350">
