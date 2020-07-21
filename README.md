@@ -5,4 +5,4 @@
  bottom of the scree as a cards, and map will also display the tweet location. 
  
 ## Phase I (Design)
- <img src="https://github.com/yousuf1997/TwitterHashtagAppProject/blob/master/Phase1.PNG" width="200" height="200">
+ <img src="https://github.com/yousuf1997/TwitterHashtagAppProject/blob/master/Phase1.PNG" width="200" height="350">
