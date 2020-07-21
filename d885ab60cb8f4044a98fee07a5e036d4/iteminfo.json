@@ -1,0 +1,52 @@
+{
+    "access": "public",
+    "accessInformation": null,
+    "appCategories": [
+    ],
+    "avgRating": 0,
+    "banner": null,
+    "categories": [
+    ],
+    "commentsEnabled": true,
+    "created": 1518745927000,
+    "culture": "en-au",
+    "description": "<html><head><meta name=\"qrichtext\" content=\"1\" /></head><body style=\" font-family:'AvenirNext LT Pro Regular'; font-size:11pt; font-weight:400; font-style:normal;\">\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">This is a simple app to get you started with your own awesome creation.</p>\n<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"http://geonet.esri.com/groups/appstudio/blog/2016/12/06/how-to-describe-our-resources-in-terms-of-difficulty-complexity-and-time-to-digest\"><span style=\" text-decoration: underline; color:#0000ff;\">Resource Level:</span></a>🍌 </p></body></html>",
+    "documentation": null,
+    "extent": [
+    ],
+    "groupDesignations": null,
+    "guid": null,
+    "industries": [
+    ],
+    "languages": [
+    ],
+    "largeThumbnail": null,
+    "licenseInfo": null,
+    "listed": false,
+    "modified": 1576708284000,
+    "numComments": 4,
+    "numRatings": 0,
+    "numViews": 8004,
+    "orgId": "2U3NfasNQ9o9LkLt",
+    "properties": null,
+    "proxyFilter": null,
+    "scoreCompleteness": 48,
+    "screenshots": [
+    ],
+    "size": 31179,
+    "snippet": "App",
+    "spatialReference": null,
+    "thumbnail": "thumbnail/thumbnail.png",
+    "title": "TwitterApp",
+    "type": "Native Application",
+    "typeKeywords": [
+        "API_QML",
+        "App",
+        "Application",
+        "AppStudio",
+        "Configuration",
+        "Native",
+        "qml"
+    ],
+    "url": null
+}
