@@ -51,7 +51,6 @@ Rectangle {
 
 
 
-
     /*The following component defines the header section of the app */
     Rectangle{
         id: headerBar
@@ -95,7 +94,7 @@ Rectangle {
                 TextField {
                     id: keyWordField
                     font.family: fontAwesome.name
-                    placeholderText: "\uf099 e.g. #tacotuesday"
+                    placeholderText: "\uf099 e.g. tacotuesday"
                     placeholderTextColor : "black"
                     width: 180 * scaleFactor
                     Keys.onReturnPressed: {
@@ -167,32 +166,12 @@ Rectangle {
     ListModel {
         id: tweetModel
         ListElement {
-            title: "#HuricaneInFlorida"
-            description:  "Lorem ipsum dolor sit amet,consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
-            hashtags: "#weather #florida"
+            profile_name: "John Patric"
+            text_description:  "Lorem ipsum dolor sit amet,consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
+            user_name: "@walter"
+            image_url : "https://pbs.twimg.com/profile_images/1270771223081803778/uz7gEdxu_400x400.jpg"
+            created_time : "2019"
         }
-        ListElement {
-            title: "#HuricaneInFlorida"
-            description:  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
-            hashtags: "#weather #florida"
-        }
-        ListElement {
-            title: "#HuricaneInFlorida"
-            description:  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
-            hashtags: "#weather #florida"
-        }
-        ListElement {
-            title: "#HuricaneInFlorida"
-            description:  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
-            hashtags: "#weather #florida"
-        }
-        ListElement {
-            title: "#HuricaneInFlorida"
-            description:  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
-            hashtags: "#weather #florida"
-        }
-
-
 
     }
     /*
@@ -203,77 +182,134 @@ Rectangle {
         Rectangle {
             id: cardRectangle
             width: parent.width;
-            height: 100
+            height: 150
             color: "transparent"
             Rectangle {
                 id: banner
                 color: "#EBF5FB"
-                width: parent.width / 1.20;
-                height: 100
+                width: parent.width / 1.1;
+                height: 150
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 radius: 7
+                Column{
+                    height: parent.height
+                    width:parent.width
+                    spacing: 3
+
+                    //this Rectangle for the user ID stuff
+                    Rectangle{
+                        height: parent.height / 2.5
+                        width: parent.width
+                        color: "transparent"
+                        id: userIDRectangle
+                        Row{
+                            id:userRowId
+                            spacing: 10
+                            width: parent.width
+                            padding: 10
+                            // anchors.left: profilePicture.right
+                            Rectangle{
+                                id: profilePicture
+                                height: 60
+                                width: 60
+                                radius: 2
+                                color: "transparent"
+
+                                Image {
+                                    id: profilePictureID
+                                    source:image_url
+                                    height: parent.height / 1.2
+                                    width: parent.width / 1.2
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
+
+                            }//profile picture
 
 
-                Text {
-                    font.family: fontAwesome.name
-                    leftPadding: 6
-                    text: title
-                    font.pixelSize: 15
-                    font.bold: true
-                    width: parent.width
-                    wrapMode: Text.WordWrap
-                    id : titleID
-                }
+                            Text {
+                                font.family: fontAwesome.name
+                                leftPadding: 6
+                                text: profile_name
+                                topPadding: 10
+                                font.pixelSize: 10
+                                font.bold: true
+                                anchors.left : profilePicture.right
+                                wrapMode: Text.WordWrap
+                                id : titleID
+                            }
 
-                Text {
-                    font.family: fontAwesome.name
-                    leftPadding: 8
-                    text:  getTweetIcon()+ " By @jacdaniel"
-                    font.pixelSize: 9
-                    color: "#797D7F"
-                    //font.bold: true
-                    font.italic: true
-                    width: parent.width
-                    anchors.top: titleID.bottom
-                    wrapMode: Text.WordWrap
-                    id : nameID
-                }
-                Text {
-                    anchors.left: parent.left
-                    anchors.leftMargin: 2
-                    anchors.top: nameID.bottom
-                    leftPadding : 9
-                    rightPadding: 20
-                    text: description
-                    width: parent.width
-                    wrapMode: Text.WordWrap
-                    font.pixelSize: 10
-                    id : descriptionID
-                }
-                Text {
-                    text: hashtags
-                    id:hashTageId
-                    leftPadding: 7
-                    width: parent.width
-                    font.bold: true
-                    wrapMode: Text.WordWrap
-                    font.italic: true
-                    font.pixelSize:app.baseFontSize*0.5
-                    anchors.top: descriptionID.bottom
-                }
-                Text {
-                    text: "Posted at 07/21/2020 2:00AM"
-                    color: "#797D7F"
-                    anchors.top: hashTageId.bottom
-                    leftPadding: 4
-                    width: parent.width
-                    wrapMode: Text.WordWrap
-                    font.pixelSize:app.baseFontSize*0.5
+                            Text {
+                                font.family: fontAwesome.name
+                                text:  getTweetIcon()+" " + user_name
+                                font.pixelSize: 10
+                                topPadding: 10
+                                color: "#797D7F"
+                                leftPadding: 15
+                                anchors.left: titleID.right
+                                id : nameID
+                            }
+                        }//row
 
-                }
-            }//innner Rectangle
+                    }//User ID Rectangle
+
+                    //this rectangle for the tweet
+
+                    Rectangle{
+                        width: parent.width
+
+                        anchors.top : userIDRectangle.bottom
+                        id:descriptionIDRectangle
+                        Text {
+                            width: parent.width / 1.6
+                            text: text_description.substr(0, 150)
+                            wrapMode: Text.WordWrap
+                            font.pixelSize: 10
+                            topPadding: 14
+                            id : descriptionID
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+
+
+                        Row{
+                            topPadding: 10
+                            spacing: 40
+                            anchors.top: descriptionID.bottom
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            Button{
+                                font.family: fontAwesome.name
+                                text: "\uf064"
+
+                                font.pixelSize: 15
+                                flat: true
+                                MouseArea {
+                                    anchors.fill: parent
+                                    enabled: true
+                                    onClicked : test();
+                                }
+                            }
+                            Button{
+                                font.family: fontAwesome.name
+                                text: "\uf004"
+                                font.pixelSize: 15
+                                flat: true
+                                MouseArea {
+                                    anchors.fill: parent
+                                    enabled: true
+                                    onClicked : test("Clicked " + titleID.text);
+                                }
+                            }
+                        }
+
+
+                    }//rectangle for the description and share and favorite icons
+
+                }//column
+            }//inner Rectangle
 
             //this renders the drop shawdow effects for the card
             DropShadow {
@@ -286,7 +322,7 @@ Rectangle {
                 source: banner
             }
         }//outter Rectangle
-    }
+    }//Component (Delegation)
 
     /*
         This renders the list view of the tweets.
@@ -297,6 +333,8 @@ Rectangle {
         topPadding: 20
         anchors.top: mapView.bottom
         ListView {
+            id:listViewID
+
             anchors.fill: parent.height / 2.5
             spacing: 12
             //  width: parent.width
@@ -304,6 +342,8 @@ Rectangle {
             //   clip: true
             model: tweetModel
             delegate: tweetComponent
+
+            Component.onCompleted: searchTweets("esri");
         }
     }
 
@@ -317,8 +357,57 @@ Rectangle {
         and pull the information that has hashtag same as the users input.
     */
     function searchTweets(hashtag){
-        //appTitleText.text = hashtag;
+
+        //this adds the data to the list
+        /*tweetModel.append({ "title" : "Corona" ,
+                              "description" : "the cornavirus has hit most countries accros India.",
+                              "hashtags" : "#corona" }); */
+
+
+
+       // appTitleText.text = "hddddddddello World"
+        //Making API request
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.open("GET", "https://api.twitter.com/1.1/search/tweets.json?q=%23"+encodeURI(hashtag)+"&result_type=recent");
+
+        //I removed this since uploading on github
+        xhr.setRequestHeader("Authorization", //bearerID );
+
+
+         xhr.onload = function (){
+            var data = JSON.parse(xhr.responseText);
+
+             //appTitleText.text = "Herte " + data.statuses[0].created_at;
+
+             updateTweetCard(data.statuses);
+        }
+        xhr.send();
+
     }
+
+    //this function will update the data to the ListElement
+
+    function updateTweetCard(dataArray){
+        if(dataArray.length === 0) return;
+
+        tweetModel.clear();
+
+        for(var i = 0; i < dataArray.length; i++){
+            var currentTweet = dataArray[i];
+
+            tweetModel.append({
+                              "profile_name": currentTweet.user.name,
+                               "text_description" : currentTweet.text,
+                               "user_name" : currentTweet.user.screen_name,
+                               "image_url" : currentTweet.user.profile_image_url_https,
+                               "created_time" : currentTweet.created_at
+                              });
+        }
+
+    }
+
 
     //this is helper function returns the tweet icon as a string
     function getTweetIcon(){
@@ -326,6 +415,20 @@ Rectangle {
     }
 
     //this is helper function returns the current date
+
+    function test(data){
+
+        appTitleText.text = data;
+    }
+
+    //this function returns the formatted date
+
+    function getDate(dateData){
+
+        var d = new Date(dateData);
+
+        return "at " + d.toLocaleString() +".";
+    }
 
 
 }
