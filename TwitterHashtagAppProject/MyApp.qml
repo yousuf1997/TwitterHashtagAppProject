@@ -99,7 +99,7 @@ Rectangle {
                     width: 180 * scaleFactor
                     Keys.onReturnPressed: {
                         if (text.length > 0)
-                            search(text);
+                            searchTweets(text);
                     }
 
                 }
@@ -182,13 +182,14 @@ Rectangle {
         Rectangle {
             id: cardRectangle
             width: parent.width;
-            height: 150
+            height: 170
             color: "transparent"
             Rectangle {
                 id: banner
-                color: "#EBF5FB"
+               // color: "#EBF5FB"
+                color: "white"
                 width: parent.width / 1.1;
-                height: 150
+                height: 170
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
 
@@ -217,11 +218,12 @@ Rectangle {
                                 radius: 2
                                 color: "transparent"
 
-                                Image {
+                             Image {
                                     id: profilePictureID
                                     source:image_url
                                     height: parent.height / 1.2
                                     width: parent.width / 1.2
+                                  //  visible: false
                                     anchors.verticalCenter: parent.verticalCenter
                                     anchors.horizontalCenter: parent.horizontalCenter
                                 }
@@ -243,7 +245,7 @@ Rectangle {
 
                             Text {
                                 font.family: fontAwesome.name
-                                text:  getTweetIcon()+" " + user_name
+                                text:  getTweetIcon()+" @" + user_name
                                 font.pixelSize: 10
                                 topPadding: 10
                                 color: "#797D7F"
@@ -264,9 +266,10 @@ Rectangle {
                         id:descriptionIDRectangle
                         Text {
                             width: parent.width / 1.6
-                            text: text_description.substr(0, 150)
+                            text: text_description.substr(0, 280)
                             wrapMode: Text.WordWrap
                             font.pixelSize: 10
+                            maximumLineCount: 5
                             topPadding: 14
                             id : descriptionID
                             anchors.verticalCenter: parent.verticalCenter
@@ -283,7 +286,6 @@ Rectangle {
                             Button{
                                 font.family: fontAwesome.name
                                 text: "\uf064"
-
                                 font.pixelSize: 15
                                 flat: true
                                 MouseArea {
@@ -334,12 +336,9 @@ Rectangle {
         anchors.top: mapView.bottom
         ListView {
             id:listViewID
-
             anchors.fill: parent.height / 2.5
             spacing: 12
-            //  width: parent.width
             height: 200
-            //   clip: true
             model: tweetModel
             delegate: tweetComponent
 
@@ -373,7 +372,7 @@ Rectangle {
         xhr.open("GET", "https://api.twitter.com/1.1/search/tweets.json?q=%23"+encodeURI(hashtag)+"&result_type=recent");
 
         //I removed this since uploading on github
-        xhr.setRequestHeader("Authorization", //bearerID );
+        xhr.setRequestHeader("Authorization", "Bearer AAAAAAAAAAAAAAAAAAAAAK2jGAEAAAAAMn2kESdYGqyWeGfIMNoCCTEya1w%3Dmpj7LfwMkLAvj4iF2gjusf2jjfP1fksIAYZTlNPOFT91CtMD9l" );
 
 
          xhr.onload = function (){
@@ -418,7 +417,7 @@ Rectangle {
 
     function test(data){
 
-        appTitleText.text = data;
+       // appTitleText.text = data;
     }
 
     //this function returns the formatted date
