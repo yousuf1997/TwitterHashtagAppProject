@@ -9,3 +9,6 @@
  
 ## Phase I (Remodeled the UI)
  <img src="https://github.com/yousuf1997/TwitterHashtagAppProject/blob/master/Phase1-redesign.PNG" width="200" height="350">
+ 
+ ## Phase I (Remodeled the UI and also the app can update real time data from Twitter (I removed the Bearer Token, you have to use your own from Twitter))
+ <img src="https://github.com/yousuf1997/TwitterHashtagAppProject/blob/master/Phase-2-TwitterModel.PNG" width="200" height="350">
