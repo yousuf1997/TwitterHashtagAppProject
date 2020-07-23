@@ -13,5 +13,8 @@
  ## Phase II (Remodeled the UI and also the app can update real time data from Twitter (I removed the Bearer Token, you have to use your own from Twitter))
  <img src="https://github.com/yousuf1997/TwitterHashtagAppProject/blob/master/Phase-2-TwitterModel.PNG" width="200" height="350">
 
- ## Phase I (Remodeled the UI)
+ ## Phase II (Remodeled the UI)  Phase-2-LocationPins-ExpandButton
  <img src="https://github.com/yousuf1997/TwitterHashtagAppProject/blob/master/Phase-2-UpdatedUI.PNG" width="200" height="350">
+
+ ## Phase II (Added Pins to the Map, and Map can expand)  
+ <img src="https://github.com/yousuf1997/TwitterHashtagAppProject/blob/master/Phase-2-LocationPins-ExpandButton.PNG" width="200" height="350">
