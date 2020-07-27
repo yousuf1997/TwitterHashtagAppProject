@@ -1,6 +1,6 @@
 {
     "appLink": "",
-    "arcgisRuntime": 0,
+    "arcgisRuntime": 1006,
     "capabilities": {
         "audio": false,
         "backgroundModes": {
@@ -33,7 +33,7 @@
         "location": true,
         "microphone": false,
         "network": true,
-        "storage": false,
+        "storage": true,
         "vibration": false
     },
     "deployment": {
@@ -107,6 +107,6 @@
     "urlScheme": "",
     "version": {
         "major": 1,
-        "micro": 1
+        "micro": 50
     }
 }
