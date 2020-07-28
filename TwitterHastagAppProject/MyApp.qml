@@ -28,22 +28,48 @@ import QtQuick.Layouts 1.3
 import ArcGIS.AppFramework.Sql 1.0
 import ArcGIS.AppFramework 1.0
 import Esri.ArcGISRuntime 100.6
+
 import QtGraphicalEffects 1.12
 import ArcGIS.AppFramework.SecureStorage 1.0
 
 
 
-Rectangle {
+
+App {
     id: app
-    width: 400 * scaleFactor
-    height: 640 * scaleFactor
+    width: 480 * AppFramework.displayScaleFactor
+    height: 650 * AppFramework.displayScaleFactor
     property int baseFontSize : app.info.propertyValue("baseFontSize", 16 * scaleFactor) + (isSmallScreen ? 0 : 3)
     property real scaleFactor: AppFramework.displayScaleFactor
     property var  graphicsOverlay : ArcGISRuntimeEnvironment.createObject("GraphicsOverlay");
     property var  locationArrayIndex : 0;
     property var listVisibity: true;
+    property var coordinates: [];
+    property bool changeOfWidth: false
+    property bool changeOfHeight: false
+    property bool newOrientation: false
 
-    color: "#FBFCFC" //background color of the whole app
+
+    //Following detects the orientation of the screen
+    //Borrowed from: https://wiki.qt.io/QML_orientation_observer
+    onWidthChanged: {changeOfWidth = true; newOrientation = (changeOfWidth && changeOfHeight)}
+    onHeightChanged: {changeOfHeight = true; newOrientation = (changeOfWidth && changeOfHeight)}
+
+    onNewOrientationChanged: {
+        if (newOrientation) {
+            changeOfWidth = false;
+            changeOfHeight = false;
+
+            if (width > height) {
+                // landscape
+                landScapeMode();
+            } else {
+                // portrait
+                portraitMode();
+            }
+        }
+    }
+    //end of orientation code
 
     //Material color for the app
     Material.accent: "#1DA1F2"
@@ -72,9 +98,7 @@ Rectangle {
     Component.onCompleted: {
         fileFolder.makeFolder();
         db.open();
-        // initTweetDatabase();
-        //updateTwitterTable();
-        //updateTwitterTable();
+
     }
 
     /*The following component defines the header section of the app */
@@ -104,14 +128,10 @@ Rectangle {
         width: parent.width
         anchors.top: headerBar.bottom
         height: 40 * scaleFactor
-        //   height: parent.height * 0.06 * scaleFactor
-        //  height: parent.height *
         color: "#AED6F1"
         id: searchBarParent
         clip: true
         Row {
-
-            // anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             leftPadding: 5
@@ -128,13 +148,8 @@ Rectangle {
 
                 Keys.onPressed: {
 
-                    //  resetHeader(false);
-
                 }
-
-
                 Keys.onReturnPressed: {
-                    //   resetHeader(true);
 
                     if (text.length > 0)
                         searchTweets(text);
@@ -166,15 +181,6 @@ Rectangle {
                     } //search function to load tweets
                 }
             }
-
-            /* SequentialAnimation on x {
-                id: noResultsAnimation
-                loops: 10
-                running: false
-                PropertyAnimation { to: 50; duration: 20 }
-                PropertyAnimation { to: 0; duration: 20 }
-            } */
-
         }
 
 
@@ -187,8 +193,8 @@ Rectangle {
     //this is the map Component of the app
     MapView {
         id:mapView
-       // height: 200 * scaleFactor
-         height: parent.height * .40 * scaleFactor
+        height: 300 * scaleFactor
+        //  height: parent.height * .40 * scaleFactor
         width: parent.width
         anchors.top: searchBarParent.bottom
         // anchors.bottom: scrollId.top
@@ -211,6 +217,14 @@ Rectangle {
 
         }
 
+
+
+        onMouseClicked: {
+
+
+            //  updateCallout(mouse.mapPoint.x, mouse.mapPoint.y);
+
+        }
 
         //&#xf065;
         RoundButton {
@@ -257,8 +271,6 @@ Rectangle {
 
         Component.onCompleted: {
             locatorTask.load();
-            // create graphics overlay and add it to the map view
-
 
         }
     }
@@ -266,9 +278,7 @@ Rectangle {
 
 
 
-    /*
-        List view model for the tweets
-    */
+    //List Model for Current Tweets and Favorites Tweets
     ListModel {
         id: tweetModel
 
@@ -277,7 +287,7 @@ Rectangle {
             text_description:  "Lorem ipsum dolor sit amet,consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"
             user_name: "@walter"
             image_url : "https://pbs.twimg.com/profile_images/1270771223081803778/uz7gEdxu_400x400.jpg"
-            created_time : "2019"
+            created_time : "2019" //this field will be used to hold the url of the tweet instead
         }
 
     }
@@ -454,6 +464,7 @@ Rectangle {
                                     }
                                 }
                             }
+
                         }
 
 
@@ -480,10 +491,9 @@ Rectangle {
         topPadding: 3
         width: parent.width
         anchors.top: mapView.bottom
-        //   height: parent.height * 0.35
-         height: parent.height *  scaleFactor * .36
-        bottomPadding: 20
-        // topPadding: 20
+        //anchors.bottom: clearAndFavoriteLogo.top
+        // height: parent.height * 0.35
+        height: 250 * scaleFactor
         id : scrollId
         clip: true
         // anchors.top: clearAndFavoriteLogo.bottom
@@ -514,22 +524,22 @@ Rectangle {
         }
     }
 
+
+
+    //This row consists the buttom for to go home, favorite, and clear the tweet database
     Row{
         id : clearAndFavoriteLogo
-         height: parent.height * 0.10 * scaleFactor
-      //  height: 30 * scaleFactor
-       // anchors.top: mapView.bottom
+        height: 50 * scaleFactor
+        //  width: parent.width
         anchors.top : scrollId.bottom
         anchors.right: parent.right
-      //  anchors.bottom: parent.bottom
-      //  bottomPadding: 15
-        //    width: parent.width
+        anchors.rightMargin: 30 * scaleFactor
+        anchors.bottomMargin: 35 * scaleFactor
         rightPadding: 10
         //  leftPadding: 10
         spacing: 3
         Button{
             font.family: fontAwesome.name
-            anchors.top: mapView.bottom
 
             width:  40 * scaleFactor
             height: 40 * scaleFactor
@@ -593,7 +603,6 @@ Rectangle {
     }
 
 
-
     //this function resets the header
     function resetHeader(onOroff){
         // height: parent.height * .02
@@ -626,6 +635,10 @@ Rectangle {
                 var results = locatorTask.geocodeResults;
 
                 //for(var i = 0; i < results.length; i++)
+
+                //insert the coordinates to the array
+                coordinates.push({"x" : results[0].inputLocation.x , "y" : results[0].inputLocation.y});
+
                 addTweetIconToMap(results[0].inputLocation.x,results[0].inputLocation.y);
 
             } else if (locatorTask.geocodeStatus === Enums.TaskStatusErrored) {
@@ -647,16 +660,13 @@ Rectangle {
 
     //this function will add the icon to the Map
     function addTweetIconToMap(x,y){
-        //
         // create a graphic
-        //https://f0.pngfuel.com/png/421/879/twitter-logo-png-clip-art.png
-        //https://image.flaticon.com/icons/png/512/36/36904.png
         var point = ArcGISRuntimeEnvironment.createObject("Point", {x: x, y: y, spatialReference: SpatialReference.createWgs84()});
         var pictureMarkerSymbol = ArcGISRuntimeEnvironment.createObject(
                     "PictureMarkerSymbol", { url : "https://i.imgur.com/FyCUOGF.png",  width: 20.0
                         ,height: 20.0});
         var graphic = ArcGISRuntimeEnvironment.createObject("Graphic", {symbol: pictureMarkerSymbol, geometry: point});
-        //graphic.attributes.attributesJson = {name: "Null Island"};
+
 
         // add the graphic to the graphics overlay
         graphicsOverlay.graphics.append(graphic);
@@ -702,23 +712,14 @@ Rectangle {
     function updateTweetCard(dataArray){
         if(dataArray.length === 0) return;
 
-        // db.open();
-        //  initTweetDatabase();
-
         tweetModel.clear();
 
         var locations = [];
 
-        //        appTitleText.text = "etts " + dataArray[0].entities.urls[0].url;
-
         for(var i = 0; i < dataArray.length; i++){
             var currentTweet = dataArray[i];
-
             locations.push(currentTweet.user.location);
-            //https://twitter.com/FmRebecca/status/1287622093358669824
             var url_of_tweet = "https://twitter.com/"+currentTweet.user.id+"/status/"+currentTweet.id_str;
-
-
             tweetModel.append({
                                   "profile_name": currentTweet.user.name,
                                   "text_description" : currentTweet.text,
@@ -745,13 +746,7 @@ Rectangle {
         return "\uf099";
     }
 
-    //this is helper function returns the current date
-
-    function test(data){
-
-        // appTitleText.text = data;
-    }
-
+    //this is helper function returns the current da
     //this function returns the formatted date
 
     function getDate(dateData){
@@ -763,8 +758,11 @@ Rectangle {
 
 
     //this function will help to resize the mapview, and change the visbility of the list
-
     function resizeMapview(){
+
+
+        //        mapView.setViewpoint(new Point(-11e6, 6e6));
+
         if(listVisibity){
             //since the list is visible
             //set it false
@@ -773,9 +771,10 @@ Rectangle {
             clearAndFavoriteLogo.visible = false;
             //now expand the mapview to the rest of the screen
 
-            mapView.height = parent.height / 0.8;
+            mapView.height = parent.height;
+            //             mapView.setViewpoint(new Point(-11e6, 6e6));
         }else{
-            mapView.height = app.height * .40 * scaleFactor
+            mapView.height = 300 * scaleFactor
             listVisibity = true;
             listViewID.visible = true;
             clearAndFavoriteLogo.visible = true;
@@ -819,9 +818,6 @@ Rectangle {
             updateTwitterTable();
         }
 
-        // appTitleText.text = query.error;
-        //  appTitleText.text = "HOOO";
-        // db.close();
     }
     //this function will create table to store the current recent tweets
     //every time new tweets is being searched the old tweets in the database will be erased
@@ -881,6 +877,8 @@ Rectangle {
                                   "image_url" : currentTweet.image_url,
                                   "created_time" : currentTweet.created_time
                               });
+
+
             index--;
         }
 
@@ -901,6 +899,7 @@ Rectangle {
 
     //this function will update the twitter table when the app opens
     function updateTwitterTable(){
+
         //  db.open();
         //initTweetDatabase();
         var selectStatement = db.query("SELECT * FROM CURRENT_TWITTER_TABLE;");
@@ -954,10 +953,34 @@ Rectangle {
         //   db.close();
 
     }
+
+    //this function turns the phone into the landScapeMode()
+    function landScapeMode(){
+        mapView.width = app.width / 2;
+        mapView.anchors.left = app.left;
+
+        scrollId.width = app.width / 2;
+        scrollId.height = app.height / 1.6;
+        scrollId.anchors.right = app.right;
+        scrollId.anchors.top = searchBarParent.bottom;
+
+    }
+    //this function turns the phone into the portrait mode
+    function portraitMode(){
+        mapView.width = app.width
+        mapView.anchors.top = searchBarParent.bottom;
+        mapView.height = 300 * scaleFactor;
+
+        scrollId.width = app.width;
+        scrollId.height = 250 * scaleFactor;
+        scrollId.anchors.top = mapView.bottom;
+
+    }
+
     //mock data for coordinates
     function populateRandomCoordinates(){
 
-        var coordinates = [];
+
 
         coordinates.push({"x" : 34.558615, "y" : -120.079858});
         coordinates.push({"x" :  35.669206, "y" :  -120.972611});
@@ -981,6 +1004,57 @@ Rectangle {
 
     }
 
+    /*
+    //this function will update the the callout information
+    //including the Point,and data
+    function updateCallout(x,y){
+
+        searchTweets(SecureStorage.value("last_tweet"))
+
+       var calloutDescription = tweetModel.get( Math.floor((Math.random() * tweetModel.count)));
+
+        var p_name = calloutDescription.profile_name;
+        var desc =  calloutDescription.text_description;
+        var image_url = calloutDescription.image_url;
+        var tweet_url = calloutDescription.created_time;
+
+        tweetModel.clear();
+        tweetModel.append(
+                    {"profile_name" : p_name,
+                     "text_description" : desc,
+                     "image_url" : image_url,
+                      "created_time" : tweet_url
+                     });
+
+    }
+
+    //this calculates the shortest distance between two coordinates
+    //this is the helper function to view the callout messages on the mapview
+    function getMinDistancePoint(x, y){
+        var minDistance = Number.MAX_SAFE_INTEGER;
+
+        var returnPoint = {};
+
+        for(var i = 0; i < coordinates.length; i++){
+            var dis = calculateDistance({"x" : x, "y" : y},coordinates[i]);
+            if(minDistance > dis){
+                minDistance = dis;
+                returnPoint = coordinates[i];
+            }
+        }
+
+        return returnPoint;
+    }
+
+    //this function will calculate the distance between two coordinates
+    function calculateDistance(point1, point2){
+
+        var leftHandX = Math.pow((point2.x - point1.x), 2);
+        var rightHandY = Math.pow((point2.y - point2.y), 2);
+
+        return Math.sqrt(leftHandX, rightHandY);
+    }
+    */
 
 }//end of the root Component
 
