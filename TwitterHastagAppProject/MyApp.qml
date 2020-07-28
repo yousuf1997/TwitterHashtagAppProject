@@ -50,28 +50,7 @@ App {
     property bool newOrientation: false
     property bool verticalOrientation: true;
 
-    //Following detects the orientation of the screen
-    //Borrowed from: https://wiki.qt.io/QML_orientation_observer
-    onWidthChanged: {changeOfWidth = true; newOrientation = (changeOfWidth && changeOfHeight)}
-    onHeightChanged: {changeOfHeight = true; newOrientation = (changeOfWidth && changeOfHeight)}
 
-    onNewOrientationChanged: {
-        if (newOrientation) {
-            changeOfWidth = false;
-            changeOfHeight = false;
-
-            if (width > height) {
-                // landscape
-                verticalOrientation = false;
-                landScapeMode();
-            } else {
-                // portrait
-                verticalOrientation = true;
-                portraitMode();
-            }
-        }
-    }
-    //end of orientation code
 
     //Material color for the app
     Material.accent: "#1DA1F2"
@@ -606,7 +585,28 @@ App {
         }
 
     }
+    //Following detects the orientation of the screen
 
+    onWidthChanged: {changeOfWidth = true; newOrientation = (changeOfWidth && changeOfHeight)}
+    onHeightChanged: {changeOfHeight = true; newOrientation = (changeOfWidth && changeOfHeight)}
+
+    onNewOrientationChanged: {
+        if (newOrientation) {
+            changeOfWidth = false;
+            changeOfHeight = false;
+
+            if (width > height) {
+                // landscape
+                verticalOrientation = false;
+                landScapeMode();
+            } else {
+                // portrait
+                verticalOrientation = true;
+                portraitMode();
+            }
+        }
+    }
+    //end of orientation code
 
     //this function resets the header
     function resetHeader(onOroff){
