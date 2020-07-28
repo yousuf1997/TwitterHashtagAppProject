@@ -48,7 +48,7 @@ App {
     property bool changeOfWidth: false
     property bool changeOfHeight: false
     property bool newOrientation: false
-
+    property bool verticalOrientation: true;
 
     //Following detects the orientation of the screen
     //Borrowed from: https://wiki.qt.io/QML_orientation_observer
@@ -62,9 +62,11 @@ App {
 
             if (width > height) {
                 // landscape
+                verticalOrientation = false;
                 landScapeMode();
             } else {
                 // portrait
+                verticalOrientation = true;
                 portraitMode();
             }
         }
@@ -234,11 +236,14 @@ App {
             anchors.right: parent.right
             text: "<font color='#ffffff'>\uf065</font>"
             font.pixelSize: 15
+            height: 60 * scaleFactor
+            width: 60 * scaleFactor
             highlighted: true
             MouseArea {
                 anchors.fill: parent
                 enabled: true
                 onClicked : {
+
                     resizeMapview();
                     if(expandButtom.text === "<font color='#ffffff'>\uf065</font>"){
                         //expand the map
@@ -761,20 +766,37 @@ App {
     function resizeMapview(){
 
 
-        //        mapView.setViewpoint(new Point(-11e6, 6e6));
-
         if(listVisibity){
             //since the list is visible
             //set it false
             listVisibity = false;
             listViewID.visible = false;
             clearAndFavoriteLogo.visible = false;
-            //now expand the mapview to the rest of the screen
 
-            mapView.height = parent.height;
-            //             mapView.setViewpoint(new Point(-11e6, 6e6));
+            //now expand the mapview to the rest of the screen
+            if(!verticalOrientation){
+
+
+                mapView.width = app.width;
+                mapView.height = app.height
+                //   verticalOrientation= false;
+            } else{
+
+                mapView.height = app.height;
+            }
         }else{
-            mapView.height = 300 * scaleFactor
+
+
+            if(verticalOrientation){
+
+
+                mapView.height = 300 * scaleFactor
+
+            }else{
+
+                landScapeMode();
+            }
+
             listVisibity = true;
             listViewID.visible = true;
             clearAndFavoriteLogo.visible = true;
@@ -956,17 +978,32 @@ App {
 
     //this function turns the phone into the landScapeMode()
     function landScapeMode(){
+
+        //    expandButtom.visible = false;
+        listVisibity = true;
+        listViewID.visible = true;
+        clearAndFavoriteLogo.visible = true;
         mapView.width = app.width / 2;
         mapView.anchors.left = app.left;
-
+        expandButtom.text = "<font color='#ffffff'>\uf065</font>";
         scrollId.width = app.width / 2;
         scrollId.height = app.height / 1.6;
         scrollId.anchors.right = app.right;
         scrollId.anchors.top = searchBarParent.bottom;
+        verticalOrientation= false;
+
+
+
+
 
     }
     //this function turns the phone into the portrait mode
     function portraitMode(){
+        listVisibity = true;
+        listViewID.visible = true;
+        clearAndFavoriteLogo.visible = true;
+        expandButtom.text = "<font color='#ffffff'>\uf065</font>";
+        //  expandButtom.visible = true;
         mapView.width = app.width
         mapView.anchors.top = searchBarParent.bottom;
         mapView.height = 300 * scaleFactor;
@@ -974,6 +1011,9 @@ App {
         scrollId.width = app.width;
         scrollId.height = 250 * scaleFactor;
         scrollId.anchors.top = mapView.bottom;
+
+        verticalOrientation= true;
+
 
     }
 
