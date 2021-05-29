@@ -699,7 +699,7 @@ App {
         xhr.open("GET", "https://api.twitter.com/1.1/search/tweets.json?q=%23"+encodeURI(hashtag)+"&result_type=recent");
 
         //I removed this since uploading on github
-        xhr.setRequestHeader("Authorization", "Bearer AAAAAAAAAAAAAAAAAAAAAK2jGAEAAAAAMn2kESdYGqyWeGfIMNoCCTEya1w%3Dmpj7LfwMkLAvj4iF2gjusf2jjfP1fksIAYZTlNPOFT91CtMD9l" );
+        xhr.setRequestHeader("Authorization", "Bearer YOUR_CODE" );
 
 
         xhr.onload = function (){
